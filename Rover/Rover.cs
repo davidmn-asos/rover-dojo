@@ -110,10 +110,24 @@ namespace Rover
                     x = (position.X + 1) % map.Width;
                     break;
                 case Facing.S:
-                    y = (position.Y - 1) % map.Height;
+                    if (y == 0)
+                    {
+                        y = map.Height - 1;
+                    }
+                    else
+                    {
+                        y = (position.Y - 1);
+                    }
                     break;
                 case Facing.W:
-                    x = (position.X - 1) % map.Width;
+                    if (x == 0)
+                    {
+                        x = map.Width - 1;
+                    }
+                    else
+                    {
+                        x = (position.X - 1) % map.Width;
+                    }
                     break;
             }
             var p = new Position(x,y);

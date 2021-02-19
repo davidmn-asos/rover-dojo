@@ -92,5 +92,23 @@ namespace RoverTests
             var result = rover.Execute(input);
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void WestWrap()
+        {
+            var map = new Map();
+            var rover = new Rover.Rover(map);
+            var result = rover.Execute("LM");
+            Assert.AreEqual("9:0:W",result);
+        }
+
+        [TestMethod]
+        public void SouthWrap()
+        {
+            var map = new Map();
+            var rover = new Rover.Rover(map);
+            var result = rover.Execute("LLM");
+            Assert.AreEqual("0:9:S", result);
+        }
     }
 }
