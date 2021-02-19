@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rover;
 
@@ -93,6 +95,14 @@ namespace RoverTests
         {
             var result = _rover.Execute("LLM");
             Assert.AreEqual("0:9:S", result);
+        }
+
+        [TestMethod]
+        public void ThrowOnBadData()
+        {
+            Func<string> f = () => _rover.Execute("badInput");
+            var e = Assert.ThrowsException<Exception>(f);
+            Assert.AreEqual($"Unknown command b",e.Message);
         }
     }
 }

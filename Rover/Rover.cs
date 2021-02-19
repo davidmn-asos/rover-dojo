@@ -1,4 +1,7 @@
-﻿namespace Rover
+﻿using System;
+using System.Data;
+
+namespace Rover
 {
     public class Rover
     {
@@ -6,7 +9,7 @@
         {
             _position = new Position(0,0);
             _facing = Facing.N;
-            this._map = map;
+            _map = map;
         }
 
         public string Execute(string command)
@@ -22,13 +25,17 @@
                 {
                     MoveRight();
                 }
-                else
+                else if (character == 'm')
                 {
                     success = MoveForward();
                     if (!success)
                     {
                         break;
                     }
+                }
+                else
+                {
+                    throw new Exception($"Unknown command {character}");
                 }
             }
 
