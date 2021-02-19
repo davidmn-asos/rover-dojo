@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rover
+﻿namespace Rover
 {
     public class Position
     {
@@ -12,7 +8,7 @@ namespace Rover
             Y = y;
         }
 
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; }
+        public int Y { get; }
     }
 }

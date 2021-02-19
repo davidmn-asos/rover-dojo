@@ -6,57 +6,51 @@ namespace RoverTests
     [TestClass]
     public class RoverTests
     {
-        [TestMethod]
-        public void CreateRover()
+        private Map _map;
+        private Rover.Rover _rover;
+
+        [TestInitialize]
+        public void Setup()
         {
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            rover.Execute("");
+            _map = new Map();
+            _rover = new Rover.Rover(_map);
         }
 
         [TestMethod]
         public void TurnLeft()
         {
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            rover.Execute("L");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.W);
-            rover.Execute("L");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.S);
-            rover.Execute("L");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.E);
-            rover.Execute("L");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.N);
+            var output = _rover.Execute("L");
+            Assert.AreEqual("0:0:W",output);
+            output = _rover.Execute("L");
+            Assert.AreEqual("0:0:S", output);
+            output = _rover.Execute("L");
+            Assert.AreEqual("0:0:E", output);
+            output = _rover.Execute("L");
+            Assert.AreEqual("0:0:N", output);
         }
 
         [TestMethod]
         public void TurnRight()
         {
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            rover.Execute("R");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.E);
-            rover.Execute("R");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.S);
-            rover.Execute("R");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.W);
-            rover.Execute("R");
-            Assert.AreEqual(rover.facing, Rover.Rover.Facing.N);
+            var output = _rover.Execute("R");
+            Assert.AreEqual("0:0:E", output);
+            output = _rover.Execute("R");
+            Assert.AreEqual("0:0:S", output);
+            output = _rover.Execute("R");
+            Assert.AreEqual("0:0:W", output);
+            output = _rover.Execute("R");
+            Assert.AreEqual("0:0:N", output);
         }
 
         [TestMethod]
         public void MoveForward()
         {
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            rover.Execute("M");
-            Assert.AreEqual(1, rover.position.Y);
-            rover.Execute("RM");
-            Assert.AreEqual(1, rover.position.Y);
-            Assert.AreEqual( 1, rover.position.X);
-            var output = rover.Execute("LM");
-            Assert.AreEqual(rover.position.X, 1);
-            Assert.AreEqual(rover.position.Y, 2);
+            var output = _rover.Execute("M");
+            Assert.AreEqual("0:1:N", output);
+            output = _rover.Execute("RM");
+            Assert.AreEqual("1:1:E", output);
+            output = _rover.Execute("LM");
+            Assert.AreEqual("1:2:N", output);
         }
 
         [TestMethod]
@@ -64,9 +58,7 @@ namespace RoverTests
         {
             var input = "MMRMMLM";
             var expected = "2:3:N";
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            var result = rover.Execute(input);
+            var result = _rover.Execute(input);
             Assert.AreEqual(expected,result);
         }
 
@@ -75,9 +67,7 @@ namespace RoverTests
         {
             var input = "MMMMMMMMMM";
             var expected = "0:0:N";
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            var result = rover.Execute(input);
+            var result = _rover.Execute(input);
             Assert.AreEqual(expected, result);
         }
 
@@ -86,28 +76,22 @@ namespace RoverTests
         {
             var expected = "O:0:2:N";
             var input = "MMMM";
-            var map = new Map();
-            map.Obstacles.Add(new Obstacle(new Position(0,3)));
-            var rover = new Rover.Rover(map);
-            var result = rover.Execute(input);
+            _map.Obstacles.Add(new Position(0,3));
+            var result = _rover.Execute(input);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void WestWrap()
         {
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            var result = rover.Execute("LM");
+            var result = _rover.Execute("LM");
             Assert.AreEqual("9:0:W",result);
         }
 
         [TestMethod]
         public void SouthWrap()
         {
-            var map = new Map();
-            var rover = new Rover.Rover(map);
-            var result = rover.Execute("LLM");
+            var result = _rover.Execute("LLM");
             Assert.AreEqual("0:9:S", result);
         }
     }

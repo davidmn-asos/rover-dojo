@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Rover
 {
@@ -10,10 +8,10 @@ namespace Rover
         {
             Height = 10;
             Width = 10;
-            Obstacles = new List<Obstacle>();
+            Obstacles = new List<Position>();
         }
         public int Height { get; }
         public int Width { get; }
-        public List<Obstacle> Obstacles;
+        public readonly List<Position> Obstacles;
     }
 }

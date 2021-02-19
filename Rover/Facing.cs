@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RoverTests
+namespace Rover
 {
-    public class TestData
+    public enum Facing
     {
+        N,
+        E,
+        S,
+        W
     }
 }

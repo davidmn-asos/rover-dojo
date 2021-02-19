@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Rover
+﻿namespace Rover
 {
     public class Rover
     {
         public Rover(Map map)
         {
-            position = new Position(0,0);
-            facing = Facing.N;
-            this.map = map;
+            _position = new Position(0,0);
+            _facing = Facing.N;
+            this._map = map;
         }
 
         public string Execute(string command)
@@ -38,95 +34,89 @@ namespace Rover
 
             if (success)
             {
-                return $"{position.X}:{position.Y}:{facing.ToString()}";
+                return $"{_position.X}:{_position.Y}:{_facing.ToString()}";
             }
-            else
-            {
-                return $"O:{position.X}:{position.Y}:{facing.ToString()}";
-            }
-            
+            return $"O:{_position.X}:{_position.Y}:{_facing.ToString()}";
         }
 
         private void MoveLeft()
         {
-            switch (facing)
+            switch (_facing)
             {
                 case Facing.N:
-                    facing = Facing.W;
+                    _facing = Facing.W;
                     break;
                 case Facing.E:
-                    facing = Facing.N;
+                    _facing = Facing.N;
                     break;
                 case Facing.S:
-                    facing = Facing.E;
+                    _facing = Facing.E;
                     break;
                 case Facing.W:
-                    facing = Facing.S;
+                    _facing = Facing.S;
                     break;
             }
         }
 
         private void MoveRight()
         {
-            switch (facing)
+            switch (_facing)
             {
                 case Facing.N:
-                    facing = Facing.E;
+                    _facing = Facing.E;
                     break;
                 case Facing.E:
-                    facing = Facing.S;
+                    _facing = Facing.S;
                     break;
                 case Facing.S:
-                    facing = Facing.W;
+                    _facing = Facing.W;
                     break;
                 case Facing.W:
-                    facing = Facing.N;
+                    _facing = Facing.N;
                     break;
             }
         }
 
         private bool MoveForward()
         {
-            var pos = CalculatePosition();
-            var obstacleInFront = CheckForObstacle(pos);
-            if (!obstacleInFront)
+            var nextPosition = CalculateNextPosition(_position.X, _position.Y);
+            var isBlocked = CheckForObstacle(nextPosition);
+            if (isBlocked)
             {
-                position = pos;
-                return true;
+                return false;
             }
-            return false;
+            _position = nextPosition;
+            return true;
         }
 
-        private Position CalculatePosition()
+        private Position CalculateNextPosition(int x, int y)
         {
-            int x = position.X;
-            int y = position.Y;
-            switch (facing)
+            switch (_facing)
             {
                 case Facing.N:
-                    y = (position.Y + 1) % map.Height;
+                    y = (_position.Y + 1) % _map.Height;
                     break;
                 case Facing.E:
-                    x = (position.X + 1) % map.Width;
+                    x = (_position.X + 1) % _map.Width;
                     break;
                 case Facing.S:
                     if (y == 0)
                     {
-                        y = map.Height - 1;
+                        y = _map.Height - 1;
                     }
                     else
                     {
-                        y = (position.Y - 1);
+                        y = (_position.Y - 1);
                     }
                     break;
                 case Facing.W:
                     if (x == 0)
                     {
-                        x = map.Width - 1;
+                        x = _map.Width - 1;
                     }
                     else
                     {
-                        x = (position.X - 1) % map.Width;
+                        x = (_position.X - 1);
                     }
                     break;
             }
@@ -136,9 +126,9 @@ namespace Rover
 
         private bool CheckForObstacle(Position p)
         {
-            foreach (var obs in map.Obstacles)
+            foreach (var obs in _map.Obstacles)
             {
-                if (obs.Position.X == p.X & obs.Position.Y == p.Y)
+                if (obs.X == p.X & obs.Y == p.Y)
                 {
                     return true;
                 }
@@ -147,17 +137,11 @@ namespace Rover
             return false;
         }
 
-        public Position position;
-        public Facing facing;
-        private Map map;
+        private Position _position;
+        private Facing _facing;
+        private Map _map;
 
-        public enum Facing
-        {
-            N,
-            E,
-            S,
-            W
-        }
+
     }
 
     
