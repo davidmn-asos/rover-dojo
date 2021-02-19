@@ -12,6 +12,6 @@ namespace Rover
         }
         public int Height { get; }
         public int Width { get; }
-        public readonly List<Position> Obstacles;
+        public readonly ICollection<Position> Obstacles;
     }
 }
